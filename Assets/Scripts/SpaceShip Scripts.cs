@@ -4,10 +4,11 @@ public class SpaceShipScripts : MonoBehaviour
 {
     private Rigidbody rb;
     public float engineThrust = 50f;
-    public float liftForce = 0.5f;
+    public float liftForce = 30f;
     public float drag = 0.03f;
     public float angularDrag = 0.03f;
     public float strafeThrust = 30f;
+    public float verticalThrust = 30f;
 
     void Start()
     {
@@ -16,24 +17,36 @@ public class SpaceShipScripts : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
+        Vector3 movement = Vector3.zero;
+
+        if (Input.GetKey(KeyCode.W))
         {
-            rb.AddForce(transform.forward * engineThrust);
+            movement += transform.forward * engineThrust;
         }
-
-        Vector3 lift = Vector3.Project(rb.linearVelocity, transform.forward);
-        rb.AddForce(transform.up * lift.magnitude * liftForce); 
-
+        if (Input.GetKey(KeyCode.S))
+        {
+            movement -= transform.forward * engineThrust;
+        }
         if (Input.GetKey(KeyCode.A))
         {
-            rb.AddForce(-transform.right * strafeThrust);
+            movement -= transform.right * strafeThrust;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            rb.AddForce(transform.right * strafeThrust);
+            movement += transform.right * strafeThrust;
         }
-        rb.linearVelocity *= (1 - drag);
-        rb.angularVelocity *= (1 - angularDrag);
+        if (Input.GetKey(KeyCode.Space))
+        {
+            movement += transform.up * verticalThrust;
+        }
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            movement -= transform.up * verticalThrust;
+        }
 
+        rb.AddForce(movement);
+
+        rb.velocity *= (1 - drag);
+        rb.angularVelocity *= (1 - angularDrag);
     }
 }
