@@ -9,6 +9,7 @@ public class SpaceShipScripts : MonoBehaviour
     public float angularDrag = 0.03f;
     public float strafeThrust = 30f;
     public float verticalThrust = 30f;
+    public float rotationSpeed = 5f; // ปรับความเร็วในการหมุน
 
     void Start()
     {
@@ -19,6 +20,7 @@ public class SpaceShipScripts : MonoBehaviour
     {
         Vector3 movement = Vector3.zero;
 
+        // Movement Controls (WASD)
         if (Input.GetKey(KeyCode.W))
         {
             movement += transform.forward * engineThrust;
@@ -46,7 +48,32 @@ public class SpaceShipScripts : MonoBehaviour
 
         rb.AddForce(movement);
 
+        // Apply drag to velocity and angular drag
         rb.velocity *= (1 - drag);
         rb.angularVelocity *= (1 - angularDrag);
+
+        // Turn the spaceship towards the mouse if right-click is held
+        if (Input.GetMouseButton(1)) // Right-click is held down
+        {
+            TurnTowardsMouse();
+        }
+    }
+
+    void TurnTowardsMouse()
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = 10f; // Set distance from the camera to give 3D position
+        Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
+        // Calculate direction to the mouse
+        Vector3 direction = worldMousePosition - transform.position;
+        direction.z = 0; // Keep the rotation in the XY plane
+        if (direction.sqrMagnitude > 0.1f)
+        {
+            // Slow down rotation
+            float step = rotationSpeed * Time.deltaTime;
+            Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, direction);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
+        }
     }
 }
