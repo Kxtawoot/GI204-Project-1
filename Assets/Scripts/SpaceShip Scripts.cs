@@ -9,8 +9,6 @@ public class SpaceShipScripts : MonoBehaviour
     public float angularDrag = 0.03f;
     public float strafeThrust = 30f;
     public float verticalThrust = 30f;
-    public float rotationSpeed = 5f;
-    public float pitchSpeed = 2f; // ความเร็วในการหมุนขึ้นลง
 
     public int damageTaken = 10; //ดาเมจที่ได้รับ
 
@@ -23,7 +21,6 @@ public class SpaceShipScripts : MonoBehaviour
     {
         Vector3 movement = Vector3.zero;
 
-        // Movement Controls (WASD)
         if (Input.GetKey(KeyCode.W))
         {
             movement += transform.forward * engineThrust;
@@ -51,37 +48,11 @@ public class SpaceShipScripts : MonoBehaviour
 
         rb.AddForce(movement);
 
-        // Apply drag to velocity and angular drag
         rb.velocity *= (1 - drag);
         rb.angularVelocity *= (1 - angularDrag);
-
-        // Turn the spaceship towards the mouse if right-click is held
-        if (Input.GetMouseButton(1)) // Right-click is held down
-        {
-            TurnTowardsMouse();
-        }
-
-        // Pitch control for up and down movement (Q/E)
-        PitchControl();
+<<<<<<< HEAD
     }
-
-    void TurnTowardsMouse()
-    {
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = 10f; // Set distance from the camera to give 3D position
-        Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-
-        // Calculate direction to the mouse
-        Vector3 direction = worldMousePosition - transform.position;
-        direction.z = 0; // Keep the rotation in the XY plane
-        if (direction.sqrMagnitude > 0.1f)
-        {
-            // Slow down rotation
-            float step = rotationSpeed * Time.deltaTime;
-            Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, direction);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
-        }
-    }
+<<<<<<< HEAD
 
     void PitchControl()
     {
@@ -94,9 +65,12 @@ public class SpaceShipScripts : MonoBehaviour
         {
             transform.Rotate(Vector3.left * pitchSpeed * Time.deltaTime);
         }
+=======
+>>>>>>> parent of b2f747e (แก้ไขให้หมุนกล้องหลังชนกับวัคถุในฉาก)
     }
 
 
+<<<<<<< HEAD
 }
 
     public class PlayerHealth : MonoBehaviour
@@ -153,4 +127,14 @@ public class SpaceShipScripts : MonoBehaviour
     {
         currentHealth = maxHealth;
     }
+=======
+
+
+
+
+
+
+=======
+>>>>>>> parent of d74e474 (ใช้ Q เงยหน้า E กดหน้าลง)
+>>>>>>> 4463a00195f3e4a7ecd8bfe9dc1c2cdd43938283
 }
