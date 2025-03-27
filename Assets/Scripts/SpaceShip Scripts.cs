@@ -9,7 +9,8 @@ public class SpaceShipScripts : MonoBehaviour
     public float angularDrag = 0.03f;
     public float strafeThrust = 30f;
     public float verticalThrust = 30f;
-    public float rotationSpeed = 5f; // ปรับความเร็วในการหมุน
+    public float rotationSpeed = 5f;
+    public float pitchSpeed = 2f; // ความเร็วในการหมุนขึ้นลง
 
     void Start()
     {
@@ -57,6 +58,9 @@ public class SpaceShipScripts : MonoBehaviour
         {
             TurnTowardsMouse();
         }
+
+        // Pitch control for up and down movement (Q/E)
+        PitchControl();
     }
 
     void TurnTowardsMouse()
@@ -74,6 +78,19 @@ public class SpaceShipScripts : MonoBehaviour
             float step = rotationSpeed * Time.deltaTime;
             Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, direction);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
+        }
+    }
+
+    void PitchControl()
+    {
+        // Control for pitch (up and down)
+        if (Input.GetKey(KeyCode.Q)) // Q for pitch up
+        {
+            transform.Rotate(Vector3.right * pitchSpeed * Time.deltaTime);
+        }
+        if (Input.GetKey(KeyCode.E)) // E for pitch down
+        {
+            transform.Rotate(Vector3.left * pitchSpeed * Time.deltaTime);
         }
     }
 }
