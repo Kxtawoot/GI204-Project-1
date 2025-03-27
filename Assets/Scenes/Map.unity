@@ -704,12 +704,15 @@ MonoBehaviour:
   verticalThrust: 30
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   maxHealth: 100
   currentHealth: 0
 =======
   rotationSpeed: 50
   rollSpeed: 50
 >>>>>>> d74e4745ecb433a493339adbd3ad56caf64595be
+=======
+>>>>>>> parent of b2f747e (แก้ไขให้หมุนกล้องหลังชนกับวัคถุในฉาก)
 =======
 >>>>>>> parent of b2f747e (แก้ไขให้หมุนกล้องหลังชนกับวัคถุในฉาก)
 --- !u!54 &775151623

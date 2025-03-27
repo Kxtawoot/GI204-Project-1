@@ -48,6 +48,7 @@ public class SpaceShipScripts : MonoBehaviour
 
         rb.velocity *= (1 - drag);
         rb.angularVelocity *= (1 - angularDrag);
+<<<<<<< HEAD
     }
 <<<<<<< HEAD
 
@@ -62,6 +63,8 @@ public class SpaceShipScripts : MonoBehaviour
         {
             transform.Rotate(Vector3.left * pitchSpeed * Time.deltaTime);
         }
+=======
+>>>>>>> parent of b2f747e (แก้ไขให้หมุนกล้องหลังชนกับวัคถุในฉาก)
     }
 
 
