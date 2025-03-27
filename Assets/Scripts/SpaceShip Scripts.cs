@@ -49,4 +49,12 @@ public class SpaceShipScripts : MonoBehaviour
         rb.velocity *= (1 - drag);
         rb.angularVelocity *= (1 - angularDrag);
     }
+
+
+
+
+
+
+
+
 }
