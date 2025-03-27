@@ -12,6 +12,8 @@ public class SpaceShipScripts : MonoBehaviour
     public float rotationSpeed = 5f;
     public float pitchSpeed = 2f; // ความเร็วในการหมุนขึ้นลง
 
+    public int damageTaken = 10; //ดาเมจที่ได้รับ
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -95,10 +97,60 @@ public class SpaceShipScripts : MonoBehaviour
     }
 
 
+}
+
+    public class PlayerHealth : MonoBehaviour
+{
+    public int maxHealth = 100;  // ค่าตั้งต้น HP
+    private int currentHealth;
+
+    public string gameOverSceneName = "GameOver";  // ชื่อของซีน Game Over
+
+    void Start()
+    {
+        currentHealth = maxHealth;  // กำหนดค่าผู้เล่นเริ่มต้นที่เต็ม
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damageTaken);
+            }
+
+            Destroy(gameObject);
+        }
+    }
 
 
+    public void TakeDamage(int damage)
+    {
+        // ลด HP ของ Player
+        currentHealth -= damage;
+        Debug.Log("Player HP: " + currentHealth);
 
+        // ถ้า HP ของ Player หมด
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;  // ตั้งค่า HP ไม่ให้เป็นค่าติดลบ
+            Die(); // ทำให้ Player ตาย
+        }
+    }
 
+    private void Die()
+    {
+        Debug.Log("Player Died!");
+        // คุณสามารถทำสิ่งต่างๆ ในนี้ เช่น Game Over หรือหยุดเกม
+        Time.timeScale = 0;  // หยุดเวลา
+        Debug.Log("Game Over!");  // ปรากฏใน Console
+    }
 
-
+    // ฟังก์ชันสำหรับการรีเซ็ต HP เมื่อเริ่มใหม่
+    public void ResetHealth()
+    {
+        currentHealth = maxHealth;
+    }
 }
