@@ -13,13 +13,13 @@ public class Shooter : MonoBehaviour
 
     void Shooting()
     {
-        Debug.DrawRay(firePoint.position, transform.forward * 50f, Color.green);
+        Debug.DrawRay(firePoint.position, transform.forward * 100f, Color.green);
 
         RaycastHit hit;
 
-        if (Physics.Raycast(firePoint.position, transform.forward, out hit, 50f))
+        if (Physics.Raycast(firePoint.position, transform.forward, out hit, 100f))
         {
-            Debug.DrawRay(firePoint.position, transform.forward * 50f, Color.red);
+            Debug.DrawRay(firePoint.position, transform.forward * 100f, Color.red);
 
             if (Input.GetMouseButtonDown(0))
             {
