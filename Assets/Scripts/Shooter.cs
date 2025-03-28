@@ -1,50 +1,36 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Shooter : MonoBehaviour
 {
     public Transform firePoint;
     public GameObject vfxFirePoint, vfxHitPoint;
-    public int damage = 5; // กำหนดดาเมจของกระสุน
+    public int damage = 5;
+    public float maxRange = 50f;
 
     void Update()
     {
-        Shooting();
-    }// Update
+        if (Input.GetMouseButtonDown(0))
+        {
+            Shoot();
+        }
+    }
 
-    void Shooting()
+    void Shoot()
     {
-        Debug.DrawRay(firePoint.position, transform.forward * 50f, Color.green);
+        Debug.DrawRay(firePoint.position, firePoint.forward * maxRange, Color.green, 0.2f);
 
         RaycastHit hit;
-
-        if (Physics.Raycast(firePoint.position, transform.forward, out hit, 50f))
+        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, maxRange))
         {
-            Debug.DrawRay(firePoint.position, transform.forward * 50f, Color.red);
+            Debug.DrawRay(firePoint.position, firePoint.forward * maxRange, Color.red, 0.2f);
 
-            if (Input.GetMouseButtonDown(0))
+            Instantiate(vfxFirePoint, firePoint.position, Quaternion.identity);
+            Instantiate(vfxHitPoint, hit.point, Quaternion.identity);
+
+            Meteorite meteor = hit.collider.GetComponent<Meteorite>();
+            if (meteor != null)
             {
-                Instantiate(vfxFirePoint, firePoint.position, Quaternion.identity);
-                Instantiate(vfxHitPoint, hit.point, Quaternion.identity);
-
-                if (hit.collider.CompareTag("Meteorite"))
-                {
-                    Meteorite enemy = hit.collider.GetComponent<Meteorite>();
-                    if (enemy != null)
-                    {
-                        enemy.TakeDamage(damage);
-                    }
-                }
-
-                if (hit.collider.CompareTag("Meteorite"))
-                {
-                    Meteorite meteor = hit.collider.GetComponent<Meteorite>();
-                    if (meteor != null)
-                    {
-                        meteor.TakeDamage(damage); // ยิงหินแล้วเลือดลด
-                    }
-                }
+                meteor.TakeDamage(damage);
             }
         }
     }

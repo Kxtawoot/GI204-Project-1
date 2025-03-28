@@ -9,9 +9,8 @@ public class SpaceShipScripts : MonoBehaviour
     public float angularDrag = 0.03f;
     public float strafeThrust = 30f;
     public float verticalThrust = 30f;
-    public float rotationSpeed = 5f;
-    public float pitchSpeed = 10f;
-
+    public float rotationSpeed = 100f; // ความเร็วในการหมุน
+    public float pitchSpeed = 100f; // ความเร็วในการเงยหน้าหรือกดหน้าลง
     public int health = 100;
 
     void Start()
@@ -19,72 +18,57 @@ public class SpaceShipScripts : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Vector3 movement = Vector3.zero;
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            movement += transform.forward * engineThrust;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            movement -= transform.forward * engineThrust;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            movement -= transform.right * strafeThrust;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            movement += transform.right * strafeThrust;
-        }
-        if (Input.GetKey(KeyCode.Space))
-        {
-            movement += transform.up * verticalThrust;
-        }
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            movement -= transform.up * verticalThrust;
-        }
+        if (Input.GetKey(KeyCode.W)) movement += transform.forward * engineThrust;
+        if (Input.GetKey(KeyCode.S)) movement -= transform.forward * engineThrust;
+        if (Input.GetKey(KeyCode.A)) movement -= transform.right * strafeThrust;
+        if (Input.GetKey(KeyCode.D)) movement += transform.right * strafeThrust;
+        if (Input.GetKey(KeyCode.Space)) movement += transform.up * verticalThrust;
+        if (Input.GetKey(KeyCode.LeftControl)) movement -= transform.up * verticalThrust;
 
         rb.AddForce(movement);
         rb.velocity *= (1 - drag);
         rb.angularVelocity *= (1 - angularDrag);
 
-        if (Input.GetMouseButton(1))
-        {
-            TurnTowardsMouse();
-        }
-
         PitchControl();
-    }
 
-    void TurnTowardsMouse()
-    {
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = 10f;
-        Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-
-        Vector3 direction = worldMousePosition - transform.position;
-        direction.z = 0;
-        if (direction.sqrMagnitude > 0.1f)
+        if (Input.GetMouseButton(1)) // คลิกขวาค้างไว้
         {
-            float step = rotationSpeed * Time.deltaTime;
-            Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, direction);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
+            RotateTowardsMouse();
         }
     }
 
     void PitchControl()
     {
-        if (Input.GetKey(KeyCode.Q))
+        float pitch = 0f;
+        if (Input.GetKey(KeyCode.Q)) pitch = pitchSpeed;
+        if (Input.GetKey(KeyCode.E)) pitch = -pitchSpeed;
+
+        rb.AddTorque(transform.right * pitch * Time.deltaTime, ForceMode.VelocityChange);
+    }
+
+    void RotateTowardsMouse()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Plane plane = new Plane(Vector3.forward, transform.position);
+
+        if (plane.Raycast(ray, out float distance))
         {
-            transform.Rotate(Vector3.right * pitchSpeed * Time.deltaTime);
+            Vector3 targetPoint = ray.GetPoint(distance);
+            Vector3 direction = targetPoint - transform.position;
+            Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
+
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
-        if (Input.GetKey(KeyCode.E))
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Meteorite"))
         {
-            transform.Rotate(Vector3.left * pitchSpeed * Time.deltaTime);
+            TakeDamage(20);
         }
     }
 
@@ -94,15 +78,6 @@ public class SpaceShipScripts : MonoBehaviour
         if (health <= 0)
         {
             Destroy(gameObject);
-        }
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        Meteorite meteorite = collision.gameObject.GetComponent<Meteorite>();
-        if (meteorite != null)
-        {
-            TakeDamage(20);
         }
     }
 }
