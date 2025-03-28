@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +6,8 @@ public class Shooter : MonoBehaviour
 {
     public Transform firePoint;
     public GameObject vfxFirePoint, vfxHitPoint;
+    public int damage = 5; // กำหนดดาเมจของกระสุน
+
     void Update()
     {
         Shooting();
@@ -26,23 +28,24 @@ public class Shooter : MonoBehaviour
                 Instantiate(vfxFirePoint, firePoint.position, Quaternion.identity);
                 Instantiate(vfxHitPoint, hit.point, Quaternion.identity);
 
-                if (hit.collider.name == "Enemy")
+                if (hit.collider.CompareTag("Meteorite"))
                 {
-                    Enemy enemy = hit.collider.GetComponent<Enemy>();
+                    Meteorite enemy = hit.collider.GetComponent<Meteorite>();
                     if (enemy != null)
                     {
-                        enemy.TakeDamage(1);
+                        enemy.TakeDamage(damage);
                     }
-                }//hit
+                }
 
-                if (hit.collider.name == "meteorite")
+                if (hit.collider.CompareTag("Meteorite"))
                 {
-                    hit.collider.GetComponent<Rigidbody>().AddForce(0, 10, 0);
-                    hit.collider.GetComponent<Rigidbody>().AddTorque(0, 50, 0);
-                }//OBS
-            }//KeyCode.Space
-
-        }//Physics.Raycast
-
-    }//Shooting
-}//Shooter
+                    Meteorite meteor = hit.collider.GetComponent<Meteorite>();
+                    if (meteor != null)
+                    {
+                        meteor.TakeDamage(damage); // ยิงหินแล้วเลือดลด
+                    }
+                }
+            }
+        }
+    }
+}

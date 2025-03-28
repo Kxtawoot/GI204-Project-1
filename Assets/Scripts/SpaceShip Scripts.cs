@@ -9,8 +9,10 @@ public class SpaceShipScripts : MonoBehaviour
     public float angularDrag = 0.03f;
     public float strafeThrust = 30f;
     public float verticalThrust = 30f;
+    public float rotationSpeed = 5f;
+    public float pitchSpeed = 10f;
 
-    public int damageTaken = 10; //ดาเมจที่ได้รับ
+    public int health = 100;
 
     void Start()
     {
@@ -47,94 +49,60 @@ public class SpaceShipScripts : MonoBehaviour
         }
 
         rb.AddForce(movement);
-
         rb.velocity *= (1 - drag);
         rb.angularVelocity *= (1 - angularDrag);
-<<<<<<< HEAD
+
+        if (Input.GetMouseButton(1))
+        {
+            TurnTowardsMouse();
+        }
+
+        PitchControl();
     }
-<<<<<<< HEAD
+
+    void TurnTowardsMouse()
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = 10f;
+        Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
+        Vector3 direction = worldMousePosition - transform.position;
+        direction.z = 0;
+        if (direction.sqrMagnitude > 0.1f)
+        {
+            float step = rotationSpeed * Time.deltaTime;
+            Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, direction);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, step);
+        }
+    }
 
     void PitchControl()
     {
-        // Control for pitch (up and down)
-        if (Input.GetKey(KeyCode.Q)) // Q for pitch up
+        if (Input.GetKey(KeyCode.Q))
         {
             transform.Rotate(Vector3.right * pitchSpeed * Time.deltaTime);
         }
-        if (Input.GetKey(KeyCode.E)) // E for pitch down
+        if (Input.GetKey(KeyCode.E))
         {
             transform.Rotate(Vector3.left * pitchSpeed * Time.deltaTime);
         }
-=======
->>>>>>> parent of b2f747e (แก้ไขให้หมุนกล้องหลังชนกับวัคถุในฉาก)
     }
 
-
-<<<<<<< HEAD
-}
-
-    public class PlayerHealth : MonoBehaviour
-{
-    public int maxHealth = 100;  // ค่าตั้งต้น HP
-    private int currentHealth;
-
-    public string gameOverSceneName = "GameOver";  // ชื่อของซีน Game Over
-
-    void Start()
+    public void TakeDamage(int damage)
     {
-        currentHealth = maxHealth;  // กำหนดค่าผู้เล่นเริ่มต้นที่เต็ม
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
+        health -= damage;
+        if (health <= 0)
         {
-            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
-            {
-                playerHealth.TakeDamage(damageTaken);
-            }
-
             Destroy(gameObject);
         }
     }
 
-
-    public void TakeDamage(int damage)
+    void OnCollisionEnter(Collision collision)
     {
-        // ลด HP ของ Player
-        currentHealth -= damage;
-        Debug.Log("Player HP: " + currentHealth);
-
-        // ถ้า HP ของ Player หมด
-        if (currentHealth <= 0)
+        Meteorite meteorite = collision.gameObject.GetComponent<Meteorite>();
+        if (meteorite != null)
         {
-            currentHealth = 0;  // ตั้งค่า HP ไม่ให้เป็นค่าติดลบ
-            Die(); // ทำให้ Player ตาย
+            TakeDamage(20);
         }
     }
-
-    private void Die()
-    {
-        Debug.Log("Player Died!");
-        // คุณสามารถทำสิ่งต่างๆ ในนี้ เช่น Game Over หรือหยุดเกม
-        Time.timeScale = 0;  // หยุดเวลา
-        Debug.Log("Game Over!");  // ปรากฏใน Console
-    }
-
-    // ฟังก์ชันสำหรับการรีเซ็ต HP เมื่อเริ่มใหม่
-    public void ResetHealth()
-    {
-        currentHealth = maxHealth;
-    }
-=======
-
-
-
-
-
-
-=======
->>>>>>> parent of d74e474 (ใช้ Q เงยหน้า E กดหน้าลง)
->>>>>>> 4463a00195f3e4a7ecd8bfe9dc1c2cdd43938283
 }
