@@ -363,11 +363,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ab7d57e3ec44f924c99c1b381cf11aee, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.66536397
+      value: 3.78
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ab7d57e3ec44f924c99c1b381cf11aee, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 12.910494
+      value: 25.21
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ab7d57e3ec44f924c99c1b381cf11aee, type: 3}
       propertyPath: m_LocalRotation.w
@@ -441,6 +441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
+  speed: 3
   explosionEffect: {fileID: 0}
 --- !u!54 &800497568
 Rigidbody:
@@ -464,7 +465,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -832,7 +833,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePoint: {fileID: 1982059800}
-  vfxFirePoint: {fileID: 100000, guid: ab1112643ee572748b01dede71158272, type: 3}
   vfxHitPoint: {fileID: 100000, guid: 756d99540142b5e4a8d174e18a6310d9, type: 3}
   damage: 5
   maxRange: 50

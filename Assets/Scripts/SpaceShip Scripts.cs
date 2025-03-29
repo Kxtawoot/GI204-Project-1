@@ -29,7 +29,7 @@ public class SpaceShipScripts : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftControl)) movement -= transform.up * verticalThrust;
 
         rb.AddForce(movement);
-        rb.velocity *= (1 - drag);
+        rb.linearVelocity *= (1 - drag);
         rb.angularVelocity *= (1 - angularDrag);
 
         PitchControl();
