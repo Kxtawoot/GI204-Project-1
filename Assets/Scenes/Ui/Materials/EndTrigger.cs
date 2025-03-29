@@ -4,5 +4,16 @@ using UnityEngine.SceneManagement;
 
 public class WinTrigger : MonoBehaviour
 {
-    
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            Debug.Log("eweeee");
+            SceneManager.LoadScene(2);
+        }
+    }
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(1);
+    }
 }
