@@ -9,8 +9,8 @@ public class SpaceShipScripts : MonoBehaviour
     public float angularDrag = 0.03f;
     public float strafeThrust = 30f;
     public float verticalThrust = 30f;
-    public float rotationSpeed = 100f; // ความเร็วในการหมุน
-    public float pitchSpeed = 100f; // ความเร็วในการเงยหน้าหรือกดหน้าลง
+    public float rotationSpeed = 500f;
+    public float pitchSpeed = 25f;
     public int health = 100;
 
     void Start()
@@ -26,42 +26,38 @@ public class SpaceShipScripts : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) movement -= transform.right * strafeThrust;
         if (Input.GetKey(KeyCode.D)) movement += transform.right * strafeThrust;
         if (Input.GetKey(KeyCode.Space)) movement += transform.up * verticalThrust;
-        if (Input.GetKey(KeyCode.LeftControl)) movement -= transform.up * verticalThrust;
 
         rb.AddForce(movement);
-        rb.linearVelocity *= (1 - drag);
+        rb.velocity *= (1 - drag);
         rb.angularVelocity *= (1 - angularDrag);
 
-        PitchControl();
+        RotationControl();
 
-        if (Input.GetMouseButton(1)) // คลิกขวาค้างไว้
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            RotateTowardsMouse();
+            ResetRotation();
         }
     }
 
-    void PitchControl()
+    void RotationControl()
     {
         float pitch = 0f;
-        if (Input.GetKey(KeyCode.Q)) pitch = pitchSpeed;
-        if (Input.GetKey(KeyCode.E)) pitch = -pitchSpeed;
+        float yaw = 0f;
+
+        if (Input.GetKey(KeyCode.LeftShift)) pitch = pitchSpeed;
+        if (Input.GetKey(KeyCode.LeftControl)) pitch = -pitchSpeed;
+        if (Input.GetKey(KeyCode.Q)) yaw = -rotationSpeed;
+        if (Input.GetKey(KeyCode.E)) yaw = rotationSpeed;
 
         rb.AddTorque(transform.right * pitch * Time.deltaTime, ForceMode.VelocityChange);
+        rb.AddTorque(transform.up * yaw * Time.deltaTime, ForceMode.VelocityChange);
     }
 
-    void RotateTowardsMouse()
+    void ResetRotation()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane plane = new Plane(Vector3.forward, transform.position);
-
-        if (plane.Raycast(ray, out float distance))
-        {
-            Vector3 targetPoint = ray.GetPoint(distance);
-            Vector3 direction = targetPoint - transform.position;
-            Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
-
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        }
+        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0); // รีเซ็ตการหมุนรอบแกน Y
+        transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up); // ตั้งให้หน้าหันไปทางแกน Z
+        rb.angularVelocity = Vector3.zero; // รีเซ็ตความเร็วในการหมุน
     }
 
     void OnCollisionEnter(Collision collision)
