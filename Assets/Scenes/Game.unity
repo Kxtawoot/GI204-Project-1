@@ -378,26 +378,14 @@ GameObject:
   - component: {fileID: 199288516}
   - component: {fileID: 199288515}
   - component: {fileID: 199288514}
-  - component: {fileID: 199288513}
+  - component: {fileID: 199288518}
   m_Layer: 0
   m_Name: END
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &199288513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 199288512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66c187471ec99cc42a07d29f5e524e6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &199288514
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -487,6 +475,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &199288518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 199288512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbc521033134eb4489c8e6fb93d8c394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneName: 
 --- !u!1 &274547400
 GameObject:
   m_ObjectHideFlags: 0
