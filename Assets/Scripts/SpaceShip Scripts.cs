@@ -55,8 +55,9 @@ public class SpaceShipScripts : MonoBehaviour
 
     void ResetRotation()
     {
-        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
-        rb.angularVelocity = Vector3.zero;
+        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0); // รีเซ็ตการหมุนรอบแกน Y
+        transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up); // ตั้งให้หน้าหันไปทางแกน Z
+        rb.angularVelocity = Vector3.zero; // รีเซ็ตความเร็วในการหมุน
     }
 
     void OnCollisionEnter(Collision collision)
