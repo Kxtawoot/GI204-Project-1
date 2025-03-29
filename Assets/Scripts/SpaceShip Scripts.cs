@@ -5,8 +5,8 @@ public class SpaceShipScripts : MonoBehaviour
     private Rigidbody rb;
     public float engineThrust = 50f;
     public float liftForce = 30f;
-    public float drag = 0.03f;
-    public float angularDrag = 0.03f;
+    public float drag = 0f;
+    public float angularDrag = 0f;
     public float strafeThrust = 30f;
     public float verticalThrust = 30f;
     public float rotationSpeed = 500f;
