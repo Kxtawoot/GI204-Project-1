@@ -18,6 +18,16 @@ public class WinTrigger : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public void BlackMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+    public void EndCredit()
+    {
+        SceneManager.LoadScene(3);
+    }
+
+
     public void Quit()
     {
 #if UNITY_EDITOR
