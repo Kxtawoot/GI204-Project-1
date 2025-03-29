@@ -3,7 +3,7 @@
 public class Shooter : MonoBehaviour
 {
     public Transform firePoint;
-    public GameObject vfxFirePoint, vfxHitPoint;
+    public GameObject vfxHitPoint;
     public int damage = 5;
     public float maxRange = 50f;
 
@@ -24,7 +24,6 @@ public class Shooter : MonoBehaviour
         {
             Debug.DrawRay(firePoint.position, firePoint.forward * maxRange, Color.red, 0.2f);
 
-            Instantiate(vfxFirePoint, firePoint.position, Quaternion.identity);
             Instantiate(vfxHitPoint, hit.point, Quaternion.identity);
 
             Meteorite meteor = hit.collider.GetComponent<Meteorite>();
