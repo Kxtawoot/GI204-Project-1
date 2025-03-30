@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI; // เพิ่ม namespace สำหรับ UI Slider
 
 public class SpaceShipScripts : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class SpaceShipScripts : MonoBehaviour
     public float rotationSpeed = 50f;
     public float pitchSpeed = 25f;
     public int health = 100;
+    public Slider healthBar; // ประกาศ Slider
 
     void Start()
     {
@@ -21,6 +23,11 @@ public class SpaceShipScripts : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (healthBar != null) // ตรวจสอบว่า healthBar ถูกกำหนดหรือไม่
+        {
+            healthBar.value = health; // ปรับค่า Slider
+        }
+
         Vector3 movement = Vector3.zero;
         if (Input.GetKey(KeyCode.W)) movement += transform.forward * engineThrust;
         if (Input.GetKey(KeyCode.S)) movement -= transform.forward * engineThrust;
@@ -56,9 +63,9 @@ public class SpaceShipScripts : MonoBehaviour
 
     void ResetRotation()
     {
-        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0); // รีเซ็ตการหมุนรอบแกน Y
-        transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up); // ตั้งให้หน้าหันไปทางแกน Z
-        rb.angularVelocity = Vector3.zero; // รีเซ็ตความเร็วในการหมุน
+        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+        transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
+        rb.angularVelocity = Vector3.zero;
     }
 
     void OnCollisionEnter(Collision collision)
