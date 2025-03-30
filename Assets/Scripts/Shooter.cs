@@ -5,7 +5,7 @@ public class Shooter : MonoBehaviour
     public Transform firePoint;
     public GameObject vfxHitPoint;
     public int damage = 5;
-    public float maxRange = 50f;
+    public float maxRange = 25f;
 
     void Update()
     {
