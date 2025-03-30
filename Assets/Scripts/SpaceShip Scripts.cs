@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpaceShipScripts : MonoBehaviour
 {
@@ -73,7 +74,7 @@ public class SpaceShipScripts : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
-            Destroy(gameObject);
+            SceneManager.LoadScene(4);
         }
     }
 }
