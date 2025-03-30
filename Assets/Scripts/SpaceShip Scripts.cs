@@ -9,7 +9,7 @@ public class SpaceShipScripts : MonoBehaviour
     public float angularDrag = 0f;
     public float strafeThrust = 30f;
     public float verticalThrust = 30f;
-    public float rotationSpeed = 500f;
+    public float rotationSpeed = 50f;
     public float pitchSpeed = 25f;
     public int health = 100;
 
