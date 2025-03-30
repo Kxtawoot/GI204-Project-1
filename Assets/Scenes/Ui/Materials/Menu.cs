@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("Start button clicked!");
-        SceneManager.LoadScene("Game"); 
+        SceneManager.LoadScene("Gameplay"); 
     }
 
     // ฟังก์ชันสำหรับปุ่ม Quit
